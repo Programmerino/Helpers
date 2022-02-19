@@ -3,6 +3,20 @@ open System
 open FSharp.Control.Reactive
 open FSharpPlus
 
+let (=>) x y = (not x) || y
+
+module Extensions =
+    [<RequireQualifiedAccess>]
+    module Option =
+        let log (msg: obj) (x: 'a option) : 'a option =
+            match x with
+            | Some _ -> x
+            | None ->
+                Console.WriteLine(msg)
+                x
+
+        let assertion (cond: bool) : Unit option = if cond then Some() else None
+
 let log x = printfn $"###{x}"
     
 let inline expandObservable x =
