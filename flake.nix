@@ -7,7 +7,6 @@
 
   inputs.flake-utils.url = "github:numtide/flake-utils";
 
-  #inputs.dotnet.url = "/home/davis/Documents/Personal/CSProjects/dotnet-nix";
   inputs.dotnet.url = "github:Programmerino/dotnet-nix";
   outputs = { self, nixpkgs, flake-utils, dotnet }:
     flake-utils.lib.eachSystem(["x86_64-linux" "aarch64-linux"]) (system:
@@ -17,7 +16,7 @@
         };
         name = "Helpers";
         version = let _ver = builtins.getEnv "GITVERSION_NUGETVERSIONV2"; in if _ver == "" then "0.0.0" else "${_ver}.${builtins.getEnv "GITVERSION_COMMITSSINCEVERSIONSOURCE"}";
-        sdk = pkgs.dotnetCorePackages.sdk_5_0;
+        sdk = pkgs.dotnet-sdk;
         library = true;
 
       in rec {
@@ -44,7 +43,7 @@
                 pkgs.clang_12
               ];
 
-              nugetSha256 = "sha256-iR9OtApWuRnYtvwU+wf3IZkNTJTk174RtswpRfwulyc=";
+              nugetSha256 = "sha256-tX6zyiPkJguBW2PRqDmpSCNQCY1E+2OYdroHKDP0ZRI=";
           };
 
       }

@@ -4,7 +4,7 @@
     <OutputType Condition="'$(library)' == ''">Exe</OutputType>
     <OutputType Condition="'$(library)' == '1'">Library</OutputType>
     <OutputType Condition="'$(library)' == '0'">Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <RuntimeIdentifiers Condition="'$(target)' == ''">linux-x64</RuntimeIdentifiers>
     <RuntimeIdentifiers Condition="'$(target)' != ''">$(target)</RuntimeIdentifiers>
     <InvariantGlobalization>true</InvariantGlobalization>
@@ -26,6 +26,7 @@
     <UseSystemResourceKeys>true</UseSystemResourceKeys>
     <DebugSymbols>false</DebugSymbols>
     <NativeDebugSymbols>false</NativeDebugSymbols>
+    <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
     <PackageId Condition="'$(name)' == ''">Helpers</PackageId>
     <PackageId Condition="'$(name)' != ''">$(name)</PackageId>
     <Version Condition="'$(version)' == ''">0.0.0</Version>
@@ -35,7 +36,7 @@
     <PackageDescription>...</PackageDescription>
     <RepositoryUrl Condition="'$(name)' == ''">https://github.com/Programmerino/Helpers</RepositoryUrl>
     <RepositoryUrl Condition="'$(name)' != ''">https://github.com/Programmerino/$(name)</RepositoryUrl>
-
+    <TrimmerDefaultAction>link</TrimmerDefaultAction>
 </PropertyGroup>
 
   <Target Name="ConfigureTrimming" BeforeTargets="PrepareForILLink">
@@ -48,14 +49,15 @@
   </Target>
 
   <ItemGroup>
-      <PackageReference Include="FSharp.Control.Reactive" Version="5.0.2" />
-      <PackageReference Include="FSharpPlus" Version="1.2.2" />
-      <RuntimeHostConfigurationOption Include="Switch.System.Reflection.Disabled.DoNotThrowForNames" Value="true" />
+    <RdXmlFile Include="FSharp.Core.xml" />
+    <PackageReference Include="FSharp.Control.Reactive" Version="5.0.2" />
+    <PackageReference Include="FSharpPlus" Version="1.2.2" />
+    <RuntimeHostConfigurationOption Include="Switch.System.Reflection.Disabled.DoNotThrowForNames" Value="true" />
     <RuntimeHostConfigurationOption Include="Switch.System.Reflection.Disabled.DoNotThrowForAssembly" Value="true" />
     <RuntimeHostConfigurationOption Include="Switch.System.Reflection.Disabled.DoNotThrowForAttributes" Value="true" />
     <RuntimeHostConfigurationOption Include="Switch.System.Reflection.Assembly.SimulatedCallingAssembly" Value="true" />
     <PackageReference Include="FSharp.Core" Version="5.0.0" />
-    <PackageReference Include="Microsoft.DotNet.ILCompiler.LLVM" Version="6.0.0-preview.2.21171.2" />
+    <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="7.0.0-preview.3.22118.2" />
     <Compile Include="Helpers.fs" />
   </ItemGroup>
 </Project>
