@@ -1,4 +1,5 @@
 module Helpers
+
 open System
 open FSharp.Control.Reactive
 open FSharpPlus
@@ -15,10 +16,15 @@ module Extensions =
                 Console.WriteLine(msg)
                 x
 
-        let assertion (cond: bool) : Unit option = if cond then Some() else None
+        let asserttap (cond: 'a -> bool) (x: 'a) : 'a option =
+            match (cond x) with
+            | true -> Some(x)
+            | false -> None
+
+        let assertion (cond: bool) : Unit option = asserttap (konst cond) ()
 
 let log x = printfn $"###{x}"
-    
+
 let inline expandObservable x =
     match x with
     | Some x -> x |> Observable.map Some
@@ -40,16 +46,16 @@ let inline csv x =
 
 let inline optBisequence x =
     match x with
-    | (Ok x), (Ok y) -> Ok (x, y)
+    | (Ok x), (Ok y) -> Ok(x, y)
     | (Error e), (Ok y) -> Error e
     | (Ok x), (Error e) -> Error e
     | (Error e), (Error f) -> Error e
-    
+
 let inline expandObservableOpt x =
     match x with
     | Some x -> x |> Observable.map Some
     | None -> Observable.single None
-    
+
 let inline expandObservableRes (x: Result<IObservable<'a>, 'b>) =
     match x with
     | Ok y -> y |> Observable.map Ok
