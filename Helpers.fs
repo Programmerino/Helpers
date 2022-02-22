@@ -75,6 +75,22 @@ module Extensions =
 
     [<RequireQualifiedAccess>]
     module Result =
+        let inline wlog msg x =
+            monad {
+                match x with
+                | Ok _ -> return x
+                | Error e ->
+                    do! Writer.tell (e ++ msg)
+                    return x
+            }
+
+        let inline log msg x =
+            wlog msg x
+            |> Writer.run
+            |> (fun (x, y) ->
+                printfn "%A" y
+                x)
+
         let bisequence x =
             match x with
             | (Ok x), (Ok y) -> Ok(x, y)
