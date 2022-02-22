@@ -28,13 +28,18 @@ module Extensions =
         let inline wlog msg x =
             monad {
                 match x with
-                | Some _ -> x
+                | Some _ -> return x
                 | None ->
-                    Writer.tell msg
-                    x
+                    do! Writer.tell msg
+                    return x
             }
 
-        let log (msg: obj) (x: 'a option) : 'a option = wlog msg x |> Writer.exec
+        let inline log msg (x: 'a option) : 'a option =
+            wlog msg x
+            |> Writer.run
+            |> (fun (x, y) ->
+                printfn "%A" y
+                x)
 
         let asserttap (cond: 'a -> bool) (x: 'a) : 'a option =
             match (cond x) with
