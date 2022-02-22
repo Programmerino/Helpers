@@ -21,14 +21,20 @@ module ArgumentParsing =
         | _ -> baseName
 
 module Extensions =
+    open FSharpPlus.Data
+
     [<RequireQualifiedAccess>]
     module Option =
-        let log (msg: obj) (x: 'a option) : 'a option =
-            match x with
-            | Some _ -> x
-            | None ->
-                Console.WriteLine(msg)
-                x
+        let inline wlog msg x =
+            monad {
+                match x with
+                | Some _ -> x
+                | None ->
+                    Writer.tell msg
+                    x
+            }
+
+        let log (msg: obj) (x: 'a option) : 'a option = wlog msg x |> Writer.exec
 
         let asserttap (cond: 'a -> bool) (x: 'a) : 'a option =
             match (cond x) with
