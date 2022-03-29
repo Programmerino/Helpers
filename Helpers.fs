@@ -32,7 +32,6 @@ module ArgumentParsing =
         | PlatformID.Xbox -> baseName ++ ".exe"
         | PlatformID.Unix
         | PlatformID.MacOSX
-        | PlatformID.Other
         | _ -> baseName
 
 module Extensions =

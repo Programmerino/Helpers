@@ -34,7 +34,7 @@
             CLR_OPENSSL_VERSION_OVERRIDE=1.1;
             DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1;
             DONTET_ROOT = "${sdk}";
-            buildInputs = defaultPackage.nativeBuildInputs ++ [ pkgs.starship sdk fable.defaultPackage."${system}" ];
+            buildInputs = defaultPackage.nativeBuildInputs ++ [ pkgs.starship sdk pkgs.git fable.defaultPackage."${system}" ];
             shellHook = ''
               eval "$(starship init bash)"
             '';
@@ -48,7 +48,7 @@
               configFile =./nuget.config;
               fablePackage = fable.defaultPackage."${system}";
               nodePackage = nodejs;
-              nugetSha256 = "sha256-LD5QuAPp3SfGf3FGRSVn2b04Ymmd2OP0DCUe5NH6/p8=";
+              nugetSha256 = "sha256-KORpWLqiTUw2ntJWt8MD3wFTkZL1/zjjkB7HRLhufYM=";
           };
 
           packages.nuget = defaultPackage;
