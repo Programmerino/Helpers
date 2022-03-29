@@ -7,8 +7,11 @@
 
   inputs.flake-utils.url = "github:numtide/flake-utils";
 
-  inputs.dotnet.url = "github:Programmerino/dotnet-nix";
-  outputs = { self, nixpkgs, flake-utils, dotnet }:
+  inputs.dotnet.url = "/home/davis/Documents/Personal/CSProjects/dotnet-nix";
+
+  inputs.fable.url = "github:Programmerino/fable.nix";
+
+  outputs = { self, nixpkgs, flake-utils, fable, dotnet }:
     flake-utils.lib.eachSystem(["x86_64-linux" "aarch64-linux"]) (system:
       let
         pkgs = import nixpkgs { 
@@ -17,35 +20,39 @@
         name = "Helpers";
         version = let _ver = builtins.getEnv "GITVERSION_NUGETVERSIONV2"; in if _ver == "" then "0.0.0" else "${_ver}.${builtins.getEnv "GITVERSION_COMMITSSINCEVERSIONSOURCE"}";
         sdk = pkgs.dotnet-sdk;
+        nodejs = pkgs.nodejs-12_x;
         library = true;
+        project = "${name}.fsproj";
+        useFable = true;
 
       in rec {
           devShell = pkgs.mkShell {
-            inherit name;
-            inherit version;
-            inherit library;
+            inherit name version library;
+            inherit useFable;
             DOTNET_CLI_HOME = "/tmp/dotnet_cli";
-            buildInputs = defaultPackage.nativeBuildInputs ++ [sdk];
-            DOTNET_ROOT = "${sdk}";
+            DOTNET_CLI_TELEMTRY_OPTOUT=1;
+            CLR_OPENSSL_VERSION_OVERRIDE=1.1;
+            DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1;
+            DONTET_ROOT = "${sdk}";
+            buildInputs = defaultPackage.nativeBuildInputs ++ [ pkgs.starship sdk fable.defaultPackage."${system}" ];
+            shellHook = ''
+              eval "$(starship init bash)"
+            '';
           };
     
           defaultPackage = dotnet.buildDotNetProject.${system} rec {
-              inherit name;
-              inherit version;
-              inherit sdk;
-              inherit system;
-              inherit library;
+              inherit name version sdk system;
+              inherit library useFable project;
               src = ./.;
               lockFile = ./packages.lock.json;
               configFile =./nuget.config;
-
-              nativeBuildInputs = [
-                pkgs.clang_12
-              ];
-
-              nugetSha256 = "sha256-tX6zyiPkJguBW2PRqDmpSCNQCY1E+2OYdroHKDP0ZRI=";
+              fablePackage = fable.defaultPackage."${system}";
+              nodePackage = nodejs;
+              nugetSha256 = "sha256-LD5QuAPp3SfGf3FGRSVn2b04Ymmd2OP0DCUe5NH6/p8=";
           };
 
+          packages.nuget = defaultPackage;
+          packages.release = defaultPackage;
       }
     );
 }

@@ -14,9 +14,9 @@
       },
       "FSharp.Core": {
         "type": "Direct",
-        "requested": "[6.0.1, )",
-        "resolved": "6.0.1",
-        "contentHash": "VrFAiW8dEEekk+0aqlbvMNZzDvYXmgWZwAt68AUBqaWK8RnoEVUNglj66bZzhs4/U63q0EfXlhcEKnH1sTYLjw=="
+        "requested": "[6.0.2, )",
+        "resolved": "6.0.2",
+        "contentHash": "8GZqv6buY71KQlWT+cl2eMi+aNX9xQ61RgI3Pzv9zPxPOX6tWCLRrBj0MYQ3h871r2RhiHUl7f0AXUD/POr8eA=="
       },
       "FSharpPlus": {
         "type": "Direct",
@@ -27,32 +27,10 @@
           "FSharp.Core": "4.6.2"
         }
       },
-      "Microsoft.DotNet.ILCompiler": {
-        "type": "Direct",
-        "requested": "[7.0.0-preview.3.22118.2, )",
-        "resolved": "7.0.0-preview.3.22118.2",
-        "contentHash": "o2HA4ialEHjFcJ5KCkE1uVBoP9jrnjtgc2ujzZCIuXzOXGX/YNfQ/nMDlUAfwu1zwbw4tNfB+kQT9XmRtlna+Q=="
-      },
       "System.Reactive": {
         "type": "Transitive",
         "resolved": "5.0.0",
         "contentHash": "erBZjkQHWL9jpasCE/0qKAryzVBJFxGHVBAvgRN1bzM0q2s1S4oYREEEL0Vb+1kA/6BKb5FjUZMp5VXmy+gzkQ=="
-      }
-    },
-    "net6.0/linux-x64": {
-      "Microsoft.DotNet.ILCompiler": {
-        "type": "Direct",
-        "requested": "[7.0.0-preview.3.22118.2, )",
-        "resolved": "7.0.0-preview.3.22118.2",
-        "contentHash": "o2HA4ialEHjFcJ5KCkE1uVBoP9jrnjtgc2ujzZCIuXzOXGX/YNfQ/nMDlUAfwu1zwbw4tNfB+kQT9XmRtlna+Q==",
-        "dependencies": {
-          "runtime.linux-x64.Microsoft.DotNet.ILCompiler": "7.0.0-preview.3.22118.2"
-        }
-      },
-      "runtime.linux-x64.Microsoft.DotNet.ILCompiler": {
-        "type": "Transitive",
-        "resolved": "7.0.0-preview.3.22118.2",
-        "contentHash": "lH9gehov2mJlrVxWW1UKiLVHEvVvvehG5Y5hql0FYby3l0vQrrInp27XU1ekVXwNrbA4C/pL7abi272uWF0xLg=="
       }
     }
   }

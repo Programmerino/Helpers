@@ -3,9 +3,24 @@ module Helpers
 open System
 open FSharp.Control.Reactive
 open FSharpPlus
+open FSharpPlus.Data
 
 module Logic =
     let (=>) x y = (not x) || y
+
+module Logging =
+    type LogLevel =
+        | Verbose
+        | Default
+        | Quiet
+
+    type Message = 
+        | Verbose of string
+        | Default of string
+        | Error of string
+
+    let log x = Writer.tell <| DList.ofSeq [x]
+
 
 module ArgumentParsing =
     let programName baseName =
@@ -21,8 +36,6 @@ module ArgumentParsing =
         | _ -> baseName
 
 module Extensions =
-    open FSharpPlus.Data
-
     [<RequireQualifiedAccess>]
     module Option =
         let inline wlog msg x =
